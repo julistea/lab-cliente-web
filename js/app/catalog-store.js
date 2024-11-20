@@ -21,15 +21,20 @@ class CatalogStore {
     try {
       this.products.loading = true;
       this.categories.loading = true;
-      this.products = await this.catalogService.fetchProducts();
-      this.categories = await this.catalogService.fetchCategories();
+      const [products, categories] = await Promise.all([
+        this.catalogService.fetchProducts(),
+        this.catalogService.fetchCategories(),
+      ]);
+      this.products = products;
+      this.categories = categories;
       return this;
     } catch (error) {
       console.error(error);
-      this.products.loading = false;
       this.products.error = true;
-      this.categories.loading = false;
       this.categories.error = true;
+    } finally {
+      this.products.loading = false;
+      this.categories.loading = false;
     }
   };
 }

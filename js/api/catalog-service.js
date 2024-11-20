@@ -3,7 +3,7 @@ class CatalogService {
 
   fetchProducts = async () => {
     try {
-      const response = await fetch(`${API_URL}/products`);
+      const response = await fetch(`${this.API_URL}/products`);
       const data = await response.json();
       return {
         loading: false,
@@ -22,7 +22,7 @@ class CatalogService {
 
   fetchCategories = async () => {
     try {
-      const response = await fetch(`${API_URL}/products/categories`);
+      const response = await fetch(`${this.API_URL}/products/categories`);
       const data = await response.json();
       return {
         loading: false,
