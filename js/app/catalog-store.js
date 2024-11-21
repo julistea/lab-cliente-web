@@ -14,7 +14,7 @@ class CatalogStore {
   };
   localStorageProducts = localStorage.getItem("selectedProducts");
   selectedProducts = this.localStorageProducts
-    ? JSON.parse(selectedProducts)
+    ? JSON.parse(this.localStorageProducts)
     : [];
 
   fetchCatalog = async () => {
@@ -36,6 +36,21 @@ class CatalogStore {
       this.products.loading = false;
       this.categories.loading = false;
     }
+  };
+
+  addProductToSelection = (productId, quantity = 1) => {
+    const isProductAlreadySelected = this.selectedProducts.some(
+      (product) => product.id === productId
+    );
+    if (isProductAlreadySelected) {
+      return "DUPLICATED_PRODUCT";
+    }
+    this.selectedProducts.push({ id: productId, quantity });
+    localStorage.setItem(
+      "selectedProducts",
+      JSON.stringify(this.selectedProducts)
+    );
+    return "PRODUCT_ADDED";
   };
 }
 
