@@ -38,20 +38,67 @@ class CatalogStore {
     }
   };
 
-  addProductToSelection = (productId, quantity = 1) => {
+  addProductToSelection = (product) => {
+    const { id } = product;
     const isProductAlreadySelected = this.selectedProducts.some(
-      (product) => product.id === productId
+      (product) => product.id === id
     );
     if (isProductAlreadySelected) {
       return "DUPLICATED_PRODUCT";
     }
-    this.selectedProducts.push({ id: productId, quantity });
+    this.selectedProducts.push({ ...product, quantity: 1 });
     localStorage.setItem(
       "selectedProducts",
       JSON.stringify(this.selectedProducts)
     );
     return "PRODUCT_ADDED";
   };
+
+  decrementQuantity(id) {
+    const productIndex = this.selectedProducts.findIndex(
+      (product) => product.id === id
+    );
+    if (this.selectedProducts[productIndex].quantity === 1) {
+      return this.selectedProducts;
+    }
+    this.selectedProducts[productIndex].quantity -= 1;
+    this.selectedProducts = [...this.selectedProducts];
+    localStorage.setItem(
+      "selectedProducts",
+      JSON.stringify(this.selectedProducts)
+    );
+  }
+
+  incrementQuantity(id) {
+    const productIndex = this.selectedProducts.findIndex(
+      (product) => product.id === id
+    );
+    this.selectedProducts[productIndex].quantity += 1;
+    this.selectedProducts = [...this.selectedProducts];
+    localStorage.setItem(
+      "selectedProducts",
+      JSON.stringify(this.selectedProducts)
+    );
+  }
+
+  deleteProductInCart(id) {
+    this.selectedProducts = this.selectedProducts.filter(
+      (product) => product.id !== id
+    );
+    localStorage.setItem(
+      "selectedProducts",
+      JSON.stringify(this.selectedProducts)
+    );
+    return this.selectedProducts;
+  }
+
+  buttonAction() {
+    this.selectedProducts = [];
+    localStorage.setItem(
+      "selectedProducts",
+      JSON.stringify(this.selectedProducts)
+    );
+  }
 }
 
 export const createStore = () => {

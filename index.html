@@ -76,51 +76,12 @@
               aria-label="close sidebar"
               class="drawer-overlay"
             ></label>
-            <div class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+            <div
+              class="menu bg-base-200 text-base-content min-h-full w-[340px] p-4"
+            >
               <h3 class="text-xl font-bold">Productos en carrito</h3>
-              <div class="mt-8">
-                <article class="flex gap-4 border rounded-xl p-2 bg-white">
-                  <img
-                    class="h-28 object-cover"
-                    src="https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"
-                    alt=""
-                  />
-                  <div>
-                    <p class="font-bold text-lg mb-2">Titulo demo</p>
-                    <div class="flex items-center">
-                      <button class="btn btn-outline btn-primary">-</button>
-                      <span class="font-bold text-lg mx-1.5">10</span>
-                      <button class="btn btn-outline btn-primary">+</button>
-                      <button class="btn btn-outline btn-error ml-1.5">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          stroke="currentColor"
-                          x-bind:width="size"
-                          x-bind:height="size"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          x-bind:stroke-width="stroke"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          width="20"
-                          height="20"
-                          stroke-width="1.5"
-                        >
-                          <path d="M4 7l16 0"></path>
-                          <path d="M10 11l0 6"></path>
-                          <path d="M14 11l0 6"></path>
-                          <path
-                            d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"
-                          ></path>
-                          <path
-                            d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"
-                          ></path>
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-                </article>
-              </div>
+              <div class="mt-8" id="products-cart"></div>
+              <div id="container-buttons-cart"></div>
             </div>
           </div>
         </div>
@@ -162,9 +123,9 @@
           </svg>
           <p class="font-bold">Lab Store &copy; 2024</p>
           <ul class="mt-4">
-            <li class="mb-1.5">Mercedes</li>
-            <li class="mb-1.5">Julian</li>
-            <li>Sebastián</li>
+            <li class="mb-1.5">Mercedes Carabajal</li>
+            <li class="mb-1.5">Julián Mamani</li>
+            <li>Sebastián Sánchez</li>
           </ul>
         </aside>
         <div>
