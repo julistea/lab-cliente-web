@@ -4,3 +4,5 @@ export const renderCategories = (store) => {
   for (const category of categories)
     categoriesList.innerHTML += `<li class="mb-1.5 capitalize">${category}</li>`;
 };
+
+
