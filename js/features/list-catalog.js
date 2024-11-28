@@ -8,39 +8,67 @@ import {
   checkoutModal,
 } from "../components/index.js";
 
+const initCatalog = (store) => {
+
+  renderCatalog(store);
+
+  const searchBar = document.querySelector('#search-bar');
+  
+  searchBar.addEventListener('input', (event) => {
+    const query = event.target.value.toLowerCase();
+    filterCatalog(store, query);
+  });
+};
+
+
 const buildCatalog = (store) => {
   const { data } = store.products;
   const catalogHTML = data.map(cardCatalog).concat(modalCatalog()).join("");
   return catalogHTML;
 };
 
-const addEventListeners = (store) => {
+
+const filterCatalog = (store, query) => {
   const { data } = store.products;
+  const filteredData = data.filter((product) =>
+    product.title.toLowerCase().includes(query)
+  );
+
+  const catalogHTML = filteredData.map(cardCatalog).concat(modalCatalog()).join("");
+  const catalog = document.querySelector("#catalog");
+  catalog.innerHTML = catalogHTML;
+
+  addEventListeners(store, filteredData);
+};
+
+const addEventListeners = (store, data) => {
   const idList = data.map((product) => product.id);
   const modal = document.querySelector("#catalog-modal");
   const modalContent = document.querySelector("#catalog-modal-content");
   idList.forEach((id) => {
     const card = document.querySelector(`#card-catalog-${id}`);
-    card.addEventListener("click", () => {
-      const modalProduct = data.find((product) => product.id === id);
-      modalContent.innerHTML = cardModal(modalProduct);
+    if (card) {
+      card.addEventListener("click", () => {
+        const modalProduct = data.find((product) => product.id === id);
+        modalContent.innerHTML = cardModal(modalProduct);
 
-      const btnAdd = document.querySelector("#btn-catalog-add");
-      btnAdd.addEventListener("click", () => {
-        const result = store.addProductToSelection(modalProduct);
-        const toast = document.querySelector("#toast-catalog");
-        const alert = document.createElement("div");
-        alert.innerHTML = toastCatalog(result);
-        toast.appendChild(alert);
-        productsInCart(store);
-        setTimeout(() => {
-          toast.removeChild(alert);
-        }, 3000);
-        modal.close();
+        const btnAdd = document.querySelector("#btn-catalog-add");
+        btnAdd.addEventListener("click", () => {
+          const result = store.addProductToSelection(modalProduct);
+          const toast = document.querySelector("#toast-catalog");
+          const alert = document.createElement("div");
+          alert.innerHTML = toastCatalog(result);
+          toast.appendChild(alert);
+          productsInCart(store);
+          setTimeout(() => {
+            toast.removeChild(alert);
+          }, 3000);
+          modal.close();
+        });
+
+        modal.showModal();
       });
-
-      modal.showModal();
-    });
+    }
   });
 };
 
@@ -122,10 +150,17 @@ const handleButtonReset = (store) => {
   productsInCart(store);
 };
 
-export const renderCatalog = (store) => {
+const renderCatalog = (store) => {
   const catalogHTML = buildCatalog(store);
   const catalog = document.querySelector("#catalog");
   catalog.innerHTML = catalogHTML;
-  addEventListeners(store);
+  addEventListeners(store, store.products.data);
   productsInCart(store);
 };
+
+export { renderCatalog, filterCatalog };
+
+document.addEventListener('DOMContentLoaded', () => {
+  const store = createStore();
+  initCatalog(store);
+});
